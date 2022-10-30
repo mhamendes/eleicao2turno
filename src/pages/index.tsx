@@ -4,7 +4,7 @@ import Table from "@components/table";
 import { trpc } from "@utils/trpc";
 
 const Home: NextPage = () => {
-  const { data, refetch } = trpc.tse.useQuery();
+  const { data, refetch, isLoading } = trpc.tse.useQuery();
 
   return (
     <>
@@ -86,18 +86,27 @@ const Home: NextPage = () => {
         <meta name='msapplication-TileImage' content='/ms-icon-144x144.png' />
         <meta name='theme-color' content='#ee0000' />
       </Head>
-      <div>
-        <h1>
-          Apuração Eleições 2022 <span>2º turno</span>
+      <div className=''>
+        <h1 className='flex justify-center text-lg mt-4'>
+          <strong>Apuração Eleições 2022 / 2º turno</strong>
         </h1>
 
-        <div className='mt-4'>
-          <span>Percentual de urnas apuradas: {data?.psi || 0}%</span>
+        <div className='mt-4 flex justify-center'>
+          <span>
+            Percentual de urnas apuradas: <strong>{data?.psi || 0}%</strong>
+          </span>
         </div>
 
-        <div className='mt-4'>
-          <button className='border' onClick={() => refetch()}>
-            Recarregar
+        <div className='mt-4 flex justify-center'>
+          <button
+            className='border flex p-1 rounded align-center'
+            onClick={() => refetch()}
+          >
+            {isLoading ? (
+              "Carregando"
+            ) : (
+              <span className='text-sm'>Recarregar</span>
+            )}
           </button>
         </div>
 
