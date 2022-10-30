@@ -6,6 +6,12 @@ import {
   getCoreRowModel,
 } from "@tanstack/react-table";
 
+import MuiTable from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+
 import { Cand } from "@server/routers/types";
 
 interface Props {
@@ -30,19 +36,27 @@ const Table: React.FC<Props> = ({ data }) => {
   const columns = [
     columnHelper.accessor((row) => row.nm, {
       id: "nome",
-      cell: (info) => toTitleCase(info.getValue()),
+      cell: (info) => (
+        <strong
+          className={`${
+            info.getValue().toLowerCase() === "lula" ? "text-red300" : ""
+          }`}
+        >
+          {toTitleCase(info.getValue())}
+        </strong>
+      ),
       footer: (info) => info.column.id,
-      header: () => <span>Candidato</span>,
+      header: () => <strong>Candidato</strong>,
     }),
     columnHelper.accessor((row) => row.pvap, {
       id: "Percentual",
       cell: (info) => <i>{info.getValue()}%</i>,
-      header: () => <span>Percentual</span>,
+      header: () => <strong>Percentual</strong>,
       footer: (info) => info.column.id,
     }),
     columnHelper.accessor((row) => row.vap, {
       id: "Total de Votos",
-      header: () => <span>Total de Votos</span>,
+      header: () => <strong>Total de Votos</strong>,
       cell: (info) => numberWithCommas(info.renderValue()),
       footer: (info) => info.column.id,
     }),
@@ -55,35 +69,35 @@ const Table: React.FC<Props> = ({ data }) => {
   });
 
   return (
-    <table>
-      <thead>
+    <MuiTable>
+      <TableHead>
         {table.getHeaderGroups().map((headerGroup) => (
-          <tr key={headerGroup.id}>
+          <TableRow key={headerGroup.id}>
             {headerGroup.headers.map((header) => (
-              <th key={header.id}>
+              <TableCell key={header.id}>
                 {header.isPlaceholder
                   ? null
                   : flexRender(
                       header.column.columnDef.header,
                       header.getContext()
                     )}
-              </th>
+              </TableCell>
             ))}
-          </tr>
+          </TableRow>
         ))}
-      </thead>
-      <tbody>
+      </TableHead>
+      <TableBody>
         {table.getRowModel().rows.map((row) => (
-          <tr key={row.id}>
+          <TableRow key={row.id}>
             {row.getVisibleCells().map((cell) => (
-              <td key={cell.id}>
+              <TableCell key={cell.id}>
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </td>
+              </TableCell>
             ))}
-          </tr>
+          </TableRow>
         ))}
-      </tbody>
-    </table>
+      </TableBody>
+    </MuiTable>
   );
 };
 
