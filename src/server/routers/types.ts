@@ -14,4 +14,5 @@ export interface Cand {
 
 export interface ResponseTSE {
   cand: Cand[];
+  psi: string;
 }

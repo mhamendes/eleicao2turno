@@ -92,6 +92,10 @@ const Home: NextPage = () => {
         </h1>
 
         <div className='mt-4'>
+          <span>Percentual de urnas apuradas: {data?.psi || 0}%</span>
+        </div>
+
+        <div className='mt-4'>
           <button className='border' onClick={() => refetch()}>
             Recarregar
           </button>
