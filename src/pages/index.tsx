@@ -4,9 +4,7 @@ import Table from "@components/table";
 import { trpc } from "@utils/trpc";
 
 const Home: NextPage = () => {
-  const { data } = trpc.tse.useQuery();
-
-  console.log(data);
+  const { data, refetch } = trpc.tse.useQuery();
 
   return (
     <>
@@ -93,7 +91,13 @@ const Home: NextPage = () => {
           Apuração Eleições 2022 <span>2º turno</span>
         </h1>
 
-        <div>
+        <div className='mt-4'>
+          <button className='border' onClick={() => refetch()}>
+            Recarregar
+          </button>
+        </div>
+
+        <div className='mt-4'>
           <Table data={data?.cand} />
         </div>
       </div>
